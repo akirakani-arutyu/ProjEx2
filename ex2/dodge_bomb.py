@@ -14,7 +14,12 @@ DELTA = {
 os.chdir(os.path.dirname(os.path.abspath(__file__)))
 
 
-def check_bound(rct):
+def check_bound(rct: pg.Rect) -> tuple[bool,bool]:
+    """
+    引数:こうかとんRectか爆弾Rect
+    戻り値:判定結果タプル
+    画面内ならTrue
+    """
     x, y = False, False
     if 0 < rct.left < WIDTH:
         x = True
@@ -35,7 +40,7 @@ def main():
     pg.draw.circle(bb_img,(255,0,0),(10,10),10)#正方形に円を描く
     bb_rct = bb_img.get_rect()#画面に貼付
     bb_rct.center = random.randint(0,WIDTH), random.randint(0,HEIGHT)#貼付場所指定
-    screen.blit(bb_img, bb_rct)
+    
     bb_img.set_colorkey((0,0,0))
     vx, vy = 5, 5
 
@@ -55,8 +60,18 @@ def main():
                 sum_mv[1] += mv[1]
         kk_rct.move_ip(sum_mv)
 
+        if check_bound(kk_rct) != (True, True):
+            kk_rct.move_ip(-sum_mv[0], -sum_mv[1])
         screen.blit(kk_img, kk_rct)
-        bb_rct.move_ip(vx,vy)
+
+        bb_rct.move_ip(vx,vy)#爆弾移動
+        x, y =  check_bound(bb_rct)
+        if not x:
+            vx *= -1
+        if not y:
+            vy *= -1
+        screen.blit(bb_img, bb_rct)#爆弾描画
+
         pg.display.update()
         tmr += 1
         clock.tick(50)
