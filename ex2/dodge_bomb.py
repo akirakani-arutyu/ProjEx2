@@ -72,8 +72,15 @@ def main():
                 elif sum_mv[0] < 0:
                     kk_img_r = kk_img
                     if sum_mv[1] > 0:
+                        kk_img_r = pg.transform.rotate(kk_img_r,45)
+                    elif sum_mv[1] < 0:
                         kk_img_r = pg.transform.rotate(kk_img_r,315)
-                    
+                elif sum_mv[0] == 0:
+                    if sum_mv[1] == 5:
+                        kk_img_r = pg.transform.flip(kk_img,True,False)
+                        kk_img_r = pg.transform.rotate(kk_img_r,90)
+                    #if sum_mv[1] == -5:
+
 
         kk_rct.move_ip(sum_mv)
 
