@@ -14,6 +14,15 @@ DELTA = {
 os.chdir(os.path.dirname(os.path.abspath(__file__)))
 
 
+def check_bound(rct):
+    x, y = False, False
+    if 0 < rct.left < WIDTH:
+        x = True
+    if 0 < rct.top < HEIGHT:
+        y = True
+    return x, y
+
+
 def main():
     pg.display.set_caption("逃げろ！こうかとん")
     screen = pg.display.set_mode((WIDTH, HEIGHT))
